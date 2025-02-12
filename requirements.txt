@@ -14,7 +14,6 @@ httpx==0.28.1
 idna==3.10
 iniconfig==2.0.0
 packaging==24.2
-pkg_resources==0.0.0
 pluggy==1.5.0
 pycparser==2.22
 pydantic==2.10.6
