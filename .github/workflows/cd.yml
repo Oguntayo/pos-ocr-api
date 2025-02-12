@@ -1,12 +1,15 @@
 name: CD Pipeline
 
 on:
-  push:
+  pull_request:
+    types:
+      - closed
     branches:
       - main
 
 jobs:
   deploy:
+    if: github.event.pull_request.merged == true  # Ensures it only runs when PR is merged
     runs-on: ubuntu-latest
 
     steps:
@@ -22,8 +25,8 @@ jobs:
           ssh root@85.208.51.17 << 'EOF'
             cd ~/fastapi-book-project
             git pull origin main
-            source venv/bin/activate
+            source venv/bin/activate  # Using .venv instead of venv
             pip install -r requirements.txt
-            sudo systemctl restart fastapi
-            sudo systemctl restart nginx
+            sudo systemctl restart fastapi  # Restart FastAPI service
+            sudo systemctl reload nginx  # Reload Nginx instead of restart to minimize downtime
           EOF
