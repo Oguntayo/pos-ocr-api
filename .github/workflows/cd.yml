@@ -1,0 +1,25 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: SSH into Server & Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: 85.208.51.17
+          username: root
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd ~/fastapi-book-project
+            git pull origin main
+            source venv/bin/activate
+            pip install -r requirements.txt
+            systemctl restart fastapi
+            systemctl restart nginx
