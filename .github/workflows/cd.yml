@@ -1,32 +1,25 @@
-name: CD Pipeline
+name: Deploy
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
-      - main
+      - main  
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true  # Ensures it only runs when PR is merged
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest 
 
     steps:
-      - name: Setup SSH Key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan 85.208.51.17 >> ~/.ssh/known_hosts
-
-      - name: SSH into Server & Deploy
-        run: |
-          ssh root@85.208.51.17 << 'EOF'
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: 85.208.51.17   
+          username: root        
+          key: ${{ secrets.SSH_PRIVATE_KEY }}  # Store your SSH key in GitHub Secrets
+          script: |
             cd ~/fastapi-book-project
             git pull origin main
-            source venv/bin/activate  # Using .venv instead of venv
+            source venv/bin/activate
             pip install -r requirements.txt
-            sudo systemctl restart fastapi  # Restart FastAPI service
-            sudo systemctl reload nginx  # Reload Nginx instead of restart to minimize downtime
-          EOF
+            systemctl restart fastapi-app  
+            systemctl restart nginx        
