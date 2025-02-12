@@ -10,16 +10,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan 85.208.51.17 >> ~/.ssh/known_hosts
+
       - name: SSH into Server & Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          host: 85.208.51.17
-          username: root
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: |
+        run: |
+          ssh root@85.208.51.17 << 'EOF'
             cd ~/fastapi-book-project
             git pull origin main
             source venv/bin/activate
             pip install -r requirements.txt
-            systemctl restart fastapi
-            systemctl restart nginx
+            sudo systemctl restart fastapi
+            sudo systemctl restart nginx
+          EOF
