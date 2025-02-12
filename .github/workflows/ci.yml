@@ -16,15 +16,18 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.8"
+          python-version: "3.8"  # Ensure this matches your local Python version
+
+      - name: Check Python Version
+        run: python --version  # Verify Python version in the CI environment
 
       - name: Install dependencies
         run: |
           python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt
+          . venv/bin/activate
+          pip install --no-cache-dir --upgrade-strategy only-if-needed -r requirements.txt
 
       - name: Run Tests
         run: |
-          source venv/bin/activate
+          . venv/bin/activate
           pytest
