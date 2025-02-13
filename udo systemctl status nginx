@@ -1,0 +1,14 @@
+● fastapi.service - FastAPI Application
+     Loaded: loaded (/etc/systemd/system/fastapi.service; disabled; vendor preset: enabled)
+     Active: inactive (dead)
+
+Feb 13 01:27:08 vmi1685062.contaboserver.net uvicorn[24094]: INFO:     Application shutdown complete.
+Feb 13 01:27:08 vmi1685062.contaboserver.net uvicorn[24094]: INFO:     Finished server process [24094]
+Feb 13 01:27:08 vmi1685062.contaboserver.net uvicorn[24092]: INFO:     Received SIGTERM, exiting.
+Feb 13 01:27:08 vmi1685062.contaboserver.net uvicorn[24092]: INFO:     Waiting for child process [24094]
+Feb 13 01:27:08 vmi1685062.contaboserver.net uvicorn[24092]: INFO:     Waiting for child process [24095]
+Feb 13 01:27:08 vmi1685062.contaboserver.net uvicorn[24092]: INFO:     Waiting for child process [24096]
+Feb 13 01:27:08 vmi1685062.contaboserver.net uvicorn[24092]: INFO:     Waiting for child process [24097]
+Feb 13 01:27:08 vmi1685062.contaboserver.net uvicorn[24092]: INFO:     Stopping parent process [24092]
+Feb 13 01:27:08 vmi1685062.contaboserver.net systemd[1]: fastapi.service: Succeeded.
+Feb 13 01:27:08 vmi1685062.contaboserver.net systemd[1]: Stopped FastAPI Application.
